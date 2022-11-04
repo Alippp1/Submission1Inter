@@ -10,7 +10,6 @@ import retrofit2.Call
 class ListStoryAdapter : RecyclerView.Adapter<ListStoryAdapter.ViewHolder>() {
 
     private val storyList = ArrayList<ListStoryItem>()
-//    private val detailStory = ArrayList<DetailStoryResponse>()
     inner class ViewHolder(val binding: StoryBinding): RecyclerView.ViewHolder(binding.root)
 
     private lateinit var onItemClickSwitch : Profil
@@ -47,9 +46,4 @@ class ListStoryAdapter : RecyclerView.Adapter<ListStoryAdapter.ViewHolder>() {
         this.storyList.addAll(listStory)
         notifyDataSetChanged()
     }
-//    fun setDetailStory(detailStory: DetailStoryResponse){
-//        this.detailStory.clear()
-//        this.detailStory.addAll(listOf(detailStory))
-//        notifyDataSetChanged()
-//    }
 }

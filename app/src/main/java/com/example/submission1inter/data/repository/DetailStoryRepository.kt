@@ -6,6 +6,7 @@ import com.example.submission1inter.akun.login.LoginResponse
 import com.example.submission1inter.model.DetailStoryActivity
 import com.example.submission1inter.model.DetailStoryApiClient
 import com.example.submission1inter.model.DetailStoryResponse
+import com.example.submission1inter.model.Story
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
@@ -18,6 +19,6 @@ class DetailStoryRepository {
         executorService.execute { detailStoryApiClient.getDetail(token, id, context) }
     }
 
-    fun getDetailResponse(): LiveData<DetailStoryResponse> = detailStoryApiClient.detail
+    fun getDetailResponse(): LiveData<Story?> = detailStoryApiClient.detail
 
 }

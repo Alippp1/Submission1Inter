@@ -5,6 +5,7 @@ import com.example.submission1inter.akun.login.LoginResponse
 import com.example.submission1inter.akun.register.RegisterData
 import com.example.submission1inter.akun.register.RegisterResponse
 import com.example.submission1inter.model.DetailStoryResponse
+import com.example.submission1inter.model.Story
 import com.example.submission1inter.model.StoryResponse
 import retrofit2.Call
 import retrofit2.Response
@@ -32,7 +33,7 @@ interface ApiService {
         @Header("Authorization") token:String
     ):Call<StoryResponse>
 
-    @GET("stories/{id}")
+ @GET("stories/{id}")
     fun Getstories(
         @Header("Authorization") token:String,
         @Path("id") id : String

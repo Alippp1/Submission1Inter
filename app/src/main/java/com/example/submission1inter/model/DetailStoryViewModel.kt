@@ -14,6 +14,6 @@ class DetailStoryViewModel : ViewModel() {
         getDetailStoryRepository.getDetailStory(token, id,context)
     }
 
-    fun getDetailResponse(): LiveData<DetailStoryResponse> = getDetailStoryRepository.getDetailResponse()
+    fun getDetailResponse(): LiveData<Story?> = getDetailStoryRepository.getDetailResponse()
 
 }

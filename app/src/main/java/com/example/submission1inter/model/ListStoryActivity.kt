@@ -12,6 +12,7 @@ import com.example.submission1inter.R
 import com.example.submission1inter.ValidasiLoginViewModel
 import com.example.submission1inter.akun.login.LoginActivity
 import com.example.submission1inter.databinding.ActivityListStoryBinding
+import com.example.submission1inter.databinding.ActivityUploadBinding
 import com.example.submission1inter.upload.UploadActivity
 
 
@@ -34,11 +35,13 @@ class ListStoryActivity : AppCompatActivity() {
         adapter = ListStoryAdapter()
         layoutManager = LinearLayoutManager(this,LinearLayoutManager.VERTICAL, false)
 
+        //validasi login, get token
         validasiLoginViewModel.getToken().observe(this){
             println("soklah $it")
             getStoryViewModel.getStory(it,this@ListStoryActivity)
         }
 
+        //view story
         getStoryViewModel.getResponse().observe(this){
             if (it != null){
                 adapter?.setListStory(it)
@@ -47,13 +50,21 @@ class ListStoryActivity : AppCompatActivity() {
         binding.rvNotes.adapter = adapter
         binding.rvNotes.layoutManager = layoutManager
 
+        //intent detail story
         binding.rvNotes.adapter = adapter
         adapter!!.setProfil(object : ListStoryAdapter.Profil {
             override fun onItemClicked(data: ListStoryItem) {
                 val intent = Intent(this@ListStoryActivity, DetailStoryActivity::class.java)
+                intent.putExtra(DetailStoryActivity.Extra,data.id)
                 startActivity(intent)
             }
         })
+
+
+        binding.addStor.setOnClickListener{
+            val intent = Intent(this@ListStoryActivity, ActivityUploadBinding::class.java)
+            startActivity(intent)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
