@@ -47,7 +47,6 @@ class ListStoryAdapter : RecyclerView.Adapter<ListStoryAdapter.ViewHolder>() {
         this.storyList.addAll(listStory)
         notifyDataSetChanged()
     }
-
 //    fun setDetailStory(detailStory: DetailStoryResponse){
 //        this.detailStory.clear()
 //        this.detailStory.addAll(listOf(detailStory))

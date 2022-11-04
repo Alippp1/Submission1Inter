@@ -2,6 +2,7 @@ package com.example.submission1inter.model
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -33,7 +34,6 @@ class ListStoryActivity : AppCompatActivity() {
         adapter = ListStoryAdapter()
         layoutManager = LinearLayoutManager(this,LinearLayoutManager.VERTICAL, false)
 
-
         validasiLoginViewModel.getToken().observe(this){
             println("soklah $it")
             getStoryViewModel.getStory(it,this@ListStoryActivity)
@@ -47,15 +47,19 @@ class ListStoryActivity : AppCompatActivity() {
         binding.rvNotes.adapter = adapter
         binding.rvNotes.layoutManager = layoutManager
 
-
-        val listStoryAdapter = ListStoryAdapter()
-        binding.rvNotes.adapter = listStoryAdapter
-        listStoryAdapter.setProfil(object : ListStoryAdapter.Profil {
+        binding.rvNotes.adapter = adapter
+        adapter!!.setProfil(object : ListStoryAdapter.Profil {
             override fun onItemClicked(data: ListStoryItem) {
                 val intent = Intent(this@ListStoryActivity, DetailStoryActivity::class.java)
                 startActivity(intent)
             }
         })
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater = menuInflater
+        inflater.inflate(R.menu.menu, menu)
+        return true
     }
 
     override fun onOptionsItemSelected(item : MenuItem): Boolean{

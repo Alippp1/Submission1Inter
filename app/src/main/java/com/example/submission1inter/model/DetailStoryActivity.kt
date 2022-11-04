@@ -22,15 +22,15 @@ class DetailStoryActivity : AppCompatActivity() {
         setContentView(binding.root)
 
 
-        getDetailStoryViewModel = obtainViewModel(this)
+//        getDetailStoryViewModel = obtainViewModel(this)
         getDetailStoryViewModel.getDetailResponse().observe(this){
             println("soklah $it")//debug
 //            Toast.makeText(this@DetailStoryActivity,getDetailStoryViewModel.getDetailResponse().toString(), Toast.LENGTH_SHORT).show()
 //            getDetailStoryViewModel.getDetailResponse(it,this@DetailStoryActivity)
         }
     }
-    private fun obtainViewModel(activity: AppCompatActivity) : DetailStoryViewModel {
-        val factory = ViewModelFactory.getInstance(activity.application)
-        return ViewModelProvider(activity,factory)[DetailStoryViewModel::class.java]
-    }
+//    private fun obtainViewModel(activity: AppCompatActivity) : DetailStoryViewModel {
+//        val factory = ViewModelFactory.getInstance(activity.application)
+//        return ViewModelProvider(activity,factory)[DetailStoryViewModel::class.java]
+//    }
 }
