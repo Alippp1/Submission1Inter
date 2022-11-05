@@ -22,9 +22,6 @@
         android:theme="@style/Theme.Submission1Inter"
         tools:targetApi="31">
         <activity
-            android:name=".upload.kamera.KameraActivity"
-            android:exported="false" />
-        <activity
             android:name=".upload.UploadActivity"
             android:exported="false" />
         <activity
@@ -51,7 +48,7 @@
 
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="com.dicoding.picodiploma.mycamera"
+            android:authorities="com.example.submission1inter"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data

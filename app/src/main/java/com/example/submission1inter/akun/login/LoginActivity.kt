@@ -1,11 +1,14 @@
 package com.example.submission1inter.akun.login
 
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
 import android.content.ContentValues.TAG
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Trace.isEnabled
 import android.util.Log
+import android.view.View
 import android.widget.*
 import androidx.activity.viewModels
 import androidx.core.os.TraceCompat.isEnabled
@@ -70,5 +73,16 @@ class LoginActivity : AppCompatActivity() {
 
         }
 
+//        playAnimation()
     }
+
+//    private  fun playAnimation(){
+//
+//        val card = ObjectAnimator.ofFloat(binding.card, View.ALPHA, 1f).setDuration(1500)
+//
+//        AnimatorSet().apply {
+//            playTogether(card)
+//            start()
+//        }
+//    }
 }

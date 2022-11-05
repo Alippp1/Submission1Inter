@@ -9,7 +9,7 @@
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="369dp"
-        android:layout_height="420dp"
+        android:layout_height="250dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
@@ -18,46 +18,59 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/avatars" />
 
+    <com.example.submission1inter.akun.customview.EditText
+        android:id="@+id/ed_add_description"
+        android:layout_marginTop="40dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:padding="30dp"
+        android:hint="Tambahkan caption"
+        app:layout_constraintTop_toBottomOf="@+id/imageView"/>
+
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_kamera"
         android:layout_width="160dp"
         android:layout_height="60dp"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="88dp"
+        android:layout_marginTop="30dp"
         android:background="@color/teal_200"
+        android:alpha="0"
         android:text="Kamera"
-        android:layout_marginLeft="@drawable/ic_kamera"
         android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        app:layout_constraintTop_toBottomOf="@+id/ed_add_description"
         tools:ignore="MissingConstraints" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_galeri"
         android:layout_width="160dp"
         android:layout_height="60dp"
-        android:layout_marginTop="88dp"
+        android:layout_marginTop="30dp"
         android:layout_marginEnd="16dp"
         android:background="@color/teal_200"
+        android:alpha="0"
         android:text="Galeri"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        app:layout_constraintTop_toBottomOf="@+id/ed_add_description"
         tools:ignore="MissingConstraints" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_upload"
         android:layout_width="370dp"
         android:layout_height="60dp"
-        android:layout_marginTop="184dp"
+        android:layout_marginTop="110dp"
         android:background="@color/teal_700"
         android:text="Upload"
+        android:alpha="0"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.487"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        app:layout_constraintTop_toBottomOf="@+id/ed_add_description"
         app:layout_constraintVertical_bias="0.135"
         tools:ignore="MissingConstraints" />
 

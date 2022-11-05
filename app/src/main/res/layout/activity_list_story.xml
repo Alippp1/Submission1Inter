@@ -9,6 +9,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_notes"
         android:layout_width="match_parent"
+        android:alpha="0"
         android:layout_height="match_parent"
         tools:listitem="@layout/story" />
 
@@ -21,6 +22,7 @@
         android:layout_marginBottom="16dp"
         android:background="@drawable/ic_add"
         android:focusable="false"
+        android:alpha="0"
         android:focusableInTouchMode="false"
         android:foregroundGravity="bottom"
         android:textOff=""

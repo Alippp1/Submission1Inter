@@ -1,10 +1,13 @@
 package com.example.submission1inter.akun.register
 
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
 import android.content.ContentValues
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.Toast
 import com.example.submission1inter.akun.login.LoginActivity
@@ -58,5 +61,16 @@ class RegisterActivity : AppCompatActivity() {
             })
         }
 
+//        playAnimation()
     }
+
+//    private  fun playAnimation(){
+//
+//        val card = ObjectAnimator.ofFloat(binding.card, View.ALPHA, 1f).setDuration(1000)
+//
+//        AnimatorSet().apply {
+//            playTogether(card)
+//            start()
+//        }
+//    }
 }

@@ -1,6 +1,8 @@
 package com.example.submission1inter.upload
 
 import android.Manifest
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
 import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
@@ -12,22 +14,45 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import androidx.lifecycle.ViewModelProvider
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
+import com.example.submission1inter.ValidasiLoginViewModel
+import com.example.submission1inter.akun.register.RegisterData
+import com.example.submission1inter.data.api.ApiConfig
+import com.example.submission1inter.databinding.ActivityDetailStoryBinding
 import com.example.submission1inter.databinding.ActivityUploadBinding
-import java.io.File
-import java.io.FileOutputStream
-import java.io.InputStream
-import java.io.OutputStream
+import com.example.submission1inter.model.GetStoryViewModel
+import com.example.submission1inter.model.ViewModelFactory
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import java.io.*
 import java.text.SimpleDateFormat
 import java.util.*
 
 class UploadActivity : AppCompatActivity() {
+
+    private lateinit var validasiLoginViewModel: ValidasiLoginViewModel
     private lateinit var binding: ActivityUploadBinding
+
+    private val uploadViewModel : UploadViewModel by viewModels()
+
+    private lateinit var uploadData: uploadData
+
     private var getFile: File? = null
     private val FILENAME_FORMAT = "dd-MMM-yyyy"
 
@@ -38,8 +63,11 @@ class UploadActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         binding = ActivityUploadBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        validasiLoginViewModel = obtainViewModel(this)
 
         if (!allPermissionsGranted()) {
             ActivityCompat.requestPermissions(
@@ -48,6 +76,8 @@ class UploadActivity : AppCompatActivity() {
                 REQUEST_CODE_PERMISSIONS
             )
         }
+
+        playAnimation()
         binding.btnKamera.setOnClickListener { ambilFoto() }
         binding.btnGaleri.setOnClickListener { ambilGaleri() }
         binding.btnUpload.setOnClickListener { upFoto() }
@@ -59,7 +89,7 @@ class UploadActivity : AppCompatActivity() {
         createCustomTempFile(application).also {
             val photoURI: Uri = FileProvider.getUriForFile(
                 this@UploadActivity,
-                "com.example.submission1inter.upload.UploadActivity", it)
+                "com.example.submission1inter", it)
             currentPhotoPath = it.absolutePath
             intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
             launcherIntentCamera.launch(intent)
@@ -74,8 +104,47 @@ class UploadActivity : AppCompatActivity() {
         launcherIntentGallery.launch(picker)
     }
 
+//    private fun upFoto(){
+//
+//    }
     private fun upFoto() {
+        if (getFile != null) {
 
+            val file = reduceFileImage(getFile as File)
+            val description = binding.edAddDescription.text.toString().toRequestBody("text/plain".toMediaType())
+            val requestImageFile = file.asRequestBody("image/jpg".toMediaTypeOrNull())
+            val imageMultipart: MultipartBody.Part = MultipartBody.Part.createFormData(
+                "photo",
+                file.name,
+                requestImageFile
+            )
+
+            val client = ApiConfig.getApiService().upload(imageMultipart, description, "bearer ${validasiLoginViewModel.getToken()}")
+            client.enqueue(object : Callback<UploadStoryResponse> {
+                override fun onResponse(
+                    call: Call<UploadStoryResponse>,
+                    response: Response<UploadStoryResponse>
+                ) {
+                    if (response.isSuccessful) {
+                        val responseBody = response.body()
+                        if (responseBody != null && !responseBody.error!!) {
+                            Toast.makeText(this@UploadActivity, responseBody.message, Toast.LENGTH_SHORT).show()
+//                            binding.progressBar.visibility = View.GONE
+                        }
+                    } else {
+                        Toast.makeText(this@UploadActivity, response.message(), Toast.LENGTH_SHORT).show()
+//                        binding.progressBar.visibility = View.GONE
+                    }
+                }
+                override fun onFailure(call: Call<UploadStoryResponse>, t: Throwable) {
+                    Toast.makeText(this@UploadActivity, "Upload Foto Gagal", Toast.LENGTH_SHORT).show()
+//                    binding.progressBar.visibility = View.GONE
+                }
+            })
+        } else {
+//            binding.progressBar.visibility = View.GONE
+            Toast.makeText(this@UploadActivity, "Upload Foto Gagal.", Toast.LENGTH_SHORT).show()
+        }
     }
 
 
@@ -183,6 +252,40 @@ class UploadActivity : AppCompatActivity() {
 
     private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
         ContextCompat.checkSelfPermission(baseContext, it) == PackageManager.PERMISSION_GRANTED
+    }
+
+    private fun reduceFileImage(file: File): File {
+        val bitmap = BitmapFactory.decodeFile(file.path)
+        var compressQuality = 100
+        var streamLength: Int
+        do {
+            val bmpStream = ByteArrayOutputStream()
+            bitmap.compress(Bitmap.CompressFormat.JPEG, compressQuality, bmpStream)
+            val bmpPicByteArray = bmpStream.toByteArray()
+            streamLength = bmpPicByteArray.size
+            compressQuality -= 5
+        } while (streamLength > 1000000)
+        bitmap.compress(Bitmap.CompressFormat.JPEG, compressQuality, FileOutputStream(file))
+        return file
+    }
+
+
+    private  fun playAnimation(){
+
+        val kamera = ObjectAnimator.ofFloat(binding.btnKamera, View.ALPHA, 1f).setDuration(1000)
+        val galeri = ObjectAnimator.ofFloat(binding.btnGaleri, View.ALPHA, 1f).setDuration(1000)
+        val add = ObjectAnimator.ofFloat(binding.btnUpload, View.ALPHA, 1f).setDuration(1000)
+
+       AnimatorSet().apply {
+           playTogether(kamera,galeri,add)
+           start()
+        }
+    }
+
+
+    private fun obtainViewModel(activity: AppCompatActivity) : ValidasiLoginViewModel {
+        val factory = ViewModelFactory.getInstance(activity.application)
+        return ViewModelProvider(activity,factory)[ValidasiLoginViewModel::class.java]
     }
 
     companion object {

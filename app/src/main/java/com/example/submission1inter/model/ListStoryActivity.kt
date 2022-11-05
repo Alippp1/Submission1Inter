@@ -1,14 +1,21 @@
 package com.example.submission1inter.model
 
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityOptionsCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.submission1inter.R
+import com.example.submission1inter.ValidasiLogin
 import com.example.submission1inter.ValidasiLoginViewModel
 import com.example.submission1inter.akun.login.LoginActivity
 import com.example.submission1inter.databinding.ActivityListStoryBinding
@@ -19,6 +26,7 @@ import com.example.submission1inter.upload.UploadActivity
 class ListStoryActivity : AppCompatActivity() {
 
     private lateinit var validasiLoginViewModel: ValidasiLoginViewModel
+//    private lateinit var validasi :ValidasiLogin
     private val getStoryViewModel : GetStoryViewModel by viewModels()
 
     private lateinit var binding: ActivityListStoryBinding
@@ -56,14 +64,16 @@ class ListStoryActivity : AppCompatActivity() {
             override fun onItemClicked(data: ListStoryItem) {
                 val intent = Intent(this@ListStoryActivity, DetailStoryActivity::class.java)
                 intent.putExtra(DetailStoryActivity.Extra,data.id)
+                binding.rvNotes.context.startActivity(intent, ActivityOptionsCompat.makeSceneTransitionAnimation(binding.rvNotes.context as Activity).toBundle())
                 startActivity(intent)
             }
         })
 
 
-        binding.addStor.setOnClickListener{
-            val intent = Intent(this@ListStoryActivity, ActivityUploadBinding::class.java)
-            startActivity(intent)
+        playAnimation()
+        binding.addStor.setOnClickListener {
+            val i = Intent(this@ListStoryActivity, UploadActivity::class.java)
+            startActivity(i)
         }
     }
 
@@ -76,14 +86,27 @@ class ListStoryActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item : MenuItem): Boolean{
         return when (item.itemId) {
             R.id.logout ->{
+//                validasi.logout()
                 val intent = Intent(this, LoginActivity::class.java)
-                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+                finish()
                 startActivity(intent)
+                Toast.makeText(this@ListStoryActivity, "Berhasil Logout", Toast.LENGTH_SHORT).show()
                 return true
             }
             else -> true
         }
     }
+
+    private  fun playAnimation(){
+
+        val add = ObjectAnimator.ofFloat(binding.addStor, View.ALPHA, 1f).setDuration(1000)
+        val list = ObjectAnimator.ofFloat(binding.rvNotes, View.ALPHA, 1f).setDuration(1000)
+        AnimatorSet().apply {
+            playTogether(add, list)
+            start()
+        }
+    }
+
     private fun obtainViewModel(activity: AppCompatActivity) : ValidasiLoginViewModel {
         val factory = ViewModelFactory.getInstance(activity.application)
         return ViewModelProvider(activity,factory)[ValidasiLoginViewModel::class.java]
