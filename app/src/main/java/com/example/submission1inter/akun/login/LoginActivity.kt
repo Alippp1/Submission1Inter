@@ -2,26 +2,20 @@ package com.example.submission1inter.akun.login
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
-import android.content.ContentValues.TAG
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Trace.isEnabled
-import android.util.Log
 import android.view.View
-import android.widget.*
+import android.widget.Button
+import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.core.os.TraceCompat.isEnabled
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import androidx.tracing.Trace.isEnabled
-import com.example.submission1inter.MainActivity
 import com.example.submission1inter.ValidasiLoginViewModel
 import com.example.submission1inter.akun.register.RegisterActivity
-import com.example.submission1inter.data.api.ApiConfig
 import com.example.submission1inter.databinding.ActivityLoginBinding
 import com.example.submission1inter.model.ListStoryActivity
 import com.example.submission1inter.model.ViewModelFactory
-import retrofit2.Response
 
 class LoginActivity : AppCompatActivity() {
 

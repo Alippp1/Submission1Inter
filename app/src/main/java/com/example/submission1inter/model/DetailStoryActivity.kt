@@ -1,15 +1,13 @@
 package com.example.submission1inter.model
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
+import android.view.View
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.submission1inter.ValidasiLoginViewModel
 import com.example.submission1inter.databinding.ActivityDetailStoryBinding
-import com.example.submission1inter.databinding.ActivityListStoryBinding
 
 class DetailStoryActivity : AppCompatActivity() {
 
@@ -32,6 +30,7 @@ class DetailStoryActivity : AppCompatActivity() {
             }
         }
 
+        binding.progressBar.visibility = View.VISIBLE
         getDetailStoryViewModel.getDetailResponse().observe(this){
             if (it!= null){
                 Glide.with(this)
@@ -39,6 +38,8 @@ class DetailStoryActivity : AppCompatActivity() {
                     .into(binding.imgItemPhoto)
                 binding.tvItemName.text = it.name
                 binding.tvItemDescription.text = it.description
+
+                binding.progressBar.hide()
             }
         }
     }

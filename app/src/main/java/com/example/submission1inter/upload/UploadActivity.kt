@@ -17,7 +17,6 @@ import android.provider.MediaStore
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -26,11 +25,9 @@ import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.submission1inter.ValidasiLoginViewModel
-import com.example.submission1inter.akun.register.RegisterData
 import com.example.submission1inter.data.api.ApiConfig
-import com.example.submission1inter.databinding.ActivityDetailStoryBinding
 import com.example.submission1inter.databinding.ActivityUploadBinding
-import com.example.submission1inter.model.GetStoryViewModel
+import com.example.submission1inter.model.ListStoryActivity
 import com.example.submission1inter.model.ViewModelFactory
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -48,10 +45,6 @@ class UploadActivity : AppCompatActivity() {
 
     private lateinit var validasiLoginViewModel: ValidasiLoginViewModel
     private lateinit var binding: ActivityUploadBinding
-
-    private val uploadViewModel : UploadViewModel by viewModels()
-
-    private lateinit var uploadData: uploadData
 
     private var getFile: File? = null
     private val FILENAME_FORMAT = "dd-MMM-yyyy"
@@ -103,15 +96,12 @@ class UploadActivity : AppCompatActivity() {
         val picker = Intent.createChooser(intent, "Pick a Picture")
         launcherIntentGallery.launch(picker)
     }
-
-//    private fun upFoto(){
-//
-//    }
     private fun upFoto() {
         if (getFile != null) {
 
             val file = reduceFileImage(getFile as File)
-            val description = binding.edAddDescription.text.toString().toRequestBody("text/plain".toMediaType())
+            val description =
+                binding.edAddDescription.text.toString().toRequestBody("text/plain".toMediaType())
             val requestImageFile = file.asRequestBody("image/jpg".toMediaTypeOrNull())
             val imageMultipart: MultipartBody.Part = MultipartBody.Part.createFormData(
                 "photo",
@@ -119,31 +109,36 @@ class UploadActivity : AppCompatActivity() {
                 requestImageFile
             )
 
-            val client = ApiConfig.getApiService().upload(imageMultipart, description, "bearer ${validasiLoginViewModel.getToken()}")
-            client.enqueue(object : Callback<UploadStoryResponse> {
-                override fun onResponse(
-                    call: Call<UploadStoryResponse>,
-                    response: Response<UploadStoryResponse>
-                ) {
-                    if (response.isSuccessful) {
-                        val responseBody = response.body()
-                        if (responseBody != null && !responseBody.error!!) {
-                            Toast.makeText(this@UploadActivity, responseBody.message, Toast.LENGTH_SHORT).show()
-//                            binding.progressBar.visibility = View.GONE
+            validasiLoginViewModel.getToken().observe(this@UploadActivity) {
+                val client = ApiConfig.getApiService().upload(imageMultipart, description, "bearer ${it}")
+                client.enqueue(object : Callback<UploadStoryResponse> {
+                    override fun onResponse(
+                        call: Call<UploadStoryResponse>,
+                        response: Response<UploadStoryResponse>
+                    ) {
+                        if (response.isSuccessful) {
+                            val responseBody = response.body()
+                            if (responseBody != null && !responseBody.error!!) {
+                                Toast.makeText(
+                                    this@UploadActivity,
+                                    responseBody.message,
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                val intent = Intent(this@UploadActivity, ListStoryActivity::class.java)
+                                startActivity(intent)
+                                binding.progressBar.visibility = View.GONE
+                            }
+                        } else {
+                            Toast.makeText(this@UploadActivity, response.message(), Toast.LENGTH_SHORT).show()
+                            binding.progressBar.visibility = View.GONE
                         }
-                    } else {
-                        Toast.makeText(this@UploadActivity, response.message(), Toast.LENGTH_SHORT).show()
-//                        binding.progressBar.visibility = View.GONE
                     }
-                }
-                override fun onFailure(call: Call<UploadStoryResponse>, t: Throwable) {
-                    Toast.makeText(this@UploadActivity, "Upload Foto Gagal", Toast.LENGTH_SHORT).show()
-//                    binding.progressBar.visibility = View.GONE
-                }
-            })
-        } else {
-//            binding.progressBar.visibility = View.GONE
-            Toast.makeText(this@UploadActivity, "Upload Foto Gagal.", Toast.LENGTH_SHORT).show()
+
+                    override fun onFailure(call: Call<UploadStoryResponse>, t: Throwable) { Toast.makeText(this@UploadActivity, "Upload Foto Gagal", Toast.LENGTH_SHORT).show()
+                    binding.progressBar.visibility = View.GONE
+                    }
+                })
+            }
         }
     }
 

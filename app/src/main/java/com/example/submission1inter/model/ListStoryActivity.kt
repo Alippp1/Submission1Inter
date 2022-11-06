@@ -2,7 +2,6 @@ package com.example.submission1inter.model
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
@@ -11,22 +10,19 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityOptionsCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.submission1inter.R
-import com.example.submission1inter.ValidasiLogin
 import com.example.submission1inter.ValidasiLoginViewModel
 import com.example.submission1inter.akun.login.LoginActivity
 import com.example.submission1inter.databinding.ActivityListStoryBinding
-import com.example.submission1inter.databinding.ActivityUploadBinding
 import com.example.submission1inter.upload.UploadActivity
 
 
 class ListStoryActivity : AppCompatActivity() {
 
     private lateinit var validasiLoginViewModel: ValidasiLoginViewModel
-//    private lateinit var validasi :ValidasiLogin
+//
     private val getStoryViewModel : GetStoryViewModel by viewModels()
 
     private lateinit var binding: ActivityListStoryBinding
@@ -44,17 +40,20 @@ class ListStoryActivity : AppCompatActivity() {
         layoutManager = LinearLayoutManager(this,LinearLayoutManager.VERTICAL, false)
 
         //validasi login, get token
-        validasiLoginViewModel.getToken().observe(this){
-            println("soklah $it")
-            getStoryViewModel.getStory(it,this@ListStoryActivity)
-        }
+            validasiLoginViewModel.getToken().observe(this) {
+                println("soklah $it")
+                getStoryViewModel.getStory(it, this@ListStoryActivity)
+            }
 
         //view story
-        getStoryViewModel.getResponse().observe(this){
-            if (it != null){
+        binding.progressBar.visibility = View.VISIBLE
+        getStoryViewModel.getResponse().observe(this) {
+            if (it != null) {
                 adapter?.setListStory(it)
+                binding.progressBar.hide()
             }
         }
+
         binding.rvNotes.adapter = adapter
         binding.rvNotes.layoutManager = layoutManager
 
@@ -64,7 +63,6 @@ class ListStoryActivity : AppCompatActivity() {
             override fun onItemClicked(data: ListStoryItem) {
                 val intent = Intent(this@ListStoryActivity, DetailStoryActivity::class.java)
                 intent.putExtra(DetailStoryActivity.Extra,data.id)
-                binding.rvNotes.context.startActivity(intent, ActivityOptionsCompat.makeSceneTransitionAnimation(binding.rvNotes.context as Activity).toBundle())
                 startActivity(intent)
             }
         })

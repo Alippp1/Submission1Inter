@@ -4,15 +4,13 @@ import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.content.ContentValues
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.example.submission1inter.akun.login.LoginActivity
-import com.example.submission1inter.akun.login.LoginData
-import com.example.submission1inter.akun.login.LoginResponse
 import com.example.submission1inter.data.api.ApiConfig
 import com.example.submission1inter.databinding.ActivityRegisterBinding
 import retrofit2.Response

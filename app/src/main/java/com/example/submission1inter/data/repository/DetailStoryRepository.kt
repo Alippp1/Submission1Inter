@@ -2,10 +2,7 @@ package com.example.submission1inter.data.repository
 
 import android.content.Context
 import androidx.lifecycle.LiveData
-import com.example.submission1inter.akun.login.LoginResponse
-import com.example.submission1inter.model.DetailStoryActivity
 import com.example.submission1inter.model.DetailStoryApiClient
-import com.example.submission1inter.model.DetailStoryResponse
 import com.example.submission1inter.model.Story
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors

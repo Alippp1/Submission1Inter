@@ -2,7 +2,6 @@ package com.example.submission1inter.data.repository
 
 import android.content.Context
 import androidx.lifecycle.LiveData
-import com.example.submission1inter.ValidasiLogin
 import com.example.submission1inter.model.GetStoryApiClient
 import com.example.submission1inter.model.ListStoryItem
 import java.util.concurrent.ExecutorService

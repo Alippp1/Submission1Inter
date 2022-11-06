@@ -3,7 +3,6 @@ package com.example.submission1inter.model
 import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.submission1inter.ValidasiLogin
 import com.example.submission1inter.ValidasiLoginViewModel
 
 class ViewModelFactory private constructor(private val application: Application): ViewModelProvider.NewInstanceFactory() {
