@@ -49,7 +49,7 @@ class RegisterActivity : AppCompatActivity() {
                             startActivity(intent)
                         }
                     } else {
-                        Toast.makeText(this@RegisterActivity, "Buat Akun Gagal", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@RegisterActivity, "Minimal 6 Karakter", Toast.LENGTH_SHORT).show()
                     }
                 }
 

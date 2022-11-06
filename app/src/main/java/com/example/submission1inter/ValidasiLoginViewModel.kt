@@ -19,4 +19,8 @@ class ValidasiLoginViewModel (application: Application): ViewModel(){
     }
 
     fun getToken(): LiveData<String> = validasiLoginRepository.getToken()
+
+    fun logout(token: String){
+        validasiLoginRepository.logout(token)
+    }
 }

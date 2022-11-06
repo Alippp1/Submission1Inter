@@ -39,8 +39,8 @@ class ValidasiLogin(var context: Context) {
         return token
     }
 
-    fun logout(){
-        editor?.clear()
+    fun logout(token: String){
+        editor?.putString("token", token)?.clear()
         editor?.apply()
     }
 }

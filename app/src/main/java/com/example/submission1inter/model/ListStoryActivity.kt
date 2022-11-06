@@ -94,7 +94,7 @@ class ListStoryActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item : MenuItem): Boolean{
         return when (item.itemId) {
             R.id.logout ->{
-//                validasi.logout()
+                validasiLoginViewModel.logout(token = String())
                 val intent = Intent(this, LoginActivity::class.java)
                 finish()
                 startActivity(intent)

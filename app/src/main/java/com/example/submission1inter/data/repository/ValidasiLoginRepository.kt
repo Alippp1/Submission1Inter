@@ -5,7 +5,6 @@ import androidx.lifecycle.LiveData
 import com.example.submission1inter.ValidasiLogin
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
-
 class ValidasiLoginRepository (application: Application){
 
     private val validasiLogin = ValidasiLogin(application)
@@ -22,4 +21,9 @@ class ValidasiLoginRepository (application: Application){
     }
 
     fun getToken(): LiveData<String> = validasiLogin.getToken()
+
+    fun logout(token:String){
+        executorService.execute { validasiLogin.logout(token) }
+    }
 }
+
