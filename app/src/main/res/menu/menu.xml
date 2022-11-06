@@ -7,4 +7,9 @@
         android:icon = "@drawable/ic_logout"
         app:showAsAction="always" />
 
+    <item android:id="@+id/switheme"
+        android:title="@string/change"
+        android:icon = "@drawable/ic_setting"
+        app:showAsAction="always" />
+
 </menu>

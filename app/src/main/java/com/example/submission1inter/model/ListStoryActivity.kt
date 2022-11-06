@@ -2,6 +2,7 @@ package com.example.submission1inter.model
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
@@ -10,14 +11,22 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.submission1inter.R
-import com.example.submission1inter.ValidasiLoginViewModel
+import com.example.submission1inter.*
 import com.example.submission1inter.akun.login.LoginActivity
 import com.example.submission1inter.databinding.ActivityListStoryBinding
+import com.example.submission1inter.tema.TemaActivity
+import com.example.submission1inter.tema.TemaPreferencesViewModel
+import com.example.submission1inter.tema.TemaSettingPreferences
+import com.example.submission1inter.tema.TemaViewModelFactory
 import com.example.submission1inter.upload.UploadActivity
 
+private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
 class ListStoryActivity : AppCompatActivity() {
 
@@ -73,6 +82,7 @@ class ListStoryActivity : AppCompatActivity() {
             val i = Intent(this@ListStoryActivity, UploadActivity::class.java)
             startActivity(i)
         }
+        Theme()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -91,6 +101,11 @@ class ListStoryActivity : AppCompatActivity() {
                 Toast.makeText(this@ListStoryActivity, "Berhasil Logout", Toast.LENGTH_SHORT).show()
                 return true
             }
+            R.id.switheme ->{
+                val i = Intent(this, TemaActivity::class.java)
+                startActivity(i)
+                return true
+            }
             else -> true
         }
     }
@@ -105,6 +120,20 @@ class ListStoryActivity : AppCompatActivity() {
         }
     }
 
+    fun Theme(){
+        val pref = TemaSettingPreferences.getInstance(dataStore)
+        val preferencesViewModel = ViewModelProvider(this, TemaViewModelFactory(pref)).get(
+            TemaPreferencesViewModel::class.java
+        )
+        preferencesViewModel.getThemeSettings().observe(this
+        ) { isDarkModeActive: Boolean ->
+            if (isDarkModeActive) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            }
+        }
+    }
     private fun obtainViewModel(activity: AppCompatActivity) : ValidasiLoginViewModel {
         val factory = ViewModelFactory.getInstance(activity.application)
         return ViewModelProvider(activity,factory)[ValidasiLoginViewModel::class.java]

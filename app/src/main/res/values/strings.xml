@@ -3,4 +3,5 @@
     <string name="name">Name</string>
     <string name="description">Description</string>
     <string name="Logout">Logout</string>
+    <string name="change">Change</string>
 </resources>
