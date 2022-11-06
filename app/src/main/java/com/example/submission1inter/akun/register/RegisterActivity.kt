@@ -61,16 +61,16 @@ class RegisterActivity : AppCompatActivity() {
             })
         }
 
-//        playAnimation()
+        playAnimation()
     }
 
-//    private  fun playAnimation(){
-//
-//        val card = ObjectAnimator.ofFloat(binding.card, View.ALPHA, 1f).setDuration(1000)
-//
-//        AnimatorSet().apply {
-//            playTogether(card)
-//            start()
-//        }
-//    }
+    private  fun playAnimation(){
+
+        val card = ObjectAnimator.ofFloat(binding.card, View.ALPHA, 1f).setDuration(1000)
+
+        AnimatorSet().apply {
+            playTogether(card)
+            start()
+        }
+    }
 }

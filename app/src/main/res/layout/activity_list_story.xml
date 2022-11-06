@@ -10,6 +10,7 @@
         android:id="@+id/rv_notes"
         android:layout_width="match_parent"
         android:alpha="0"
+        android:transitionName="data"
         android:layout_height="match_parent"
         tools:listitem="@layout/story" />
 

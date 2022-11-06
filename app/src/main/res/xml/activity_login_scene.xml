@@ -4,19 +4,19 @@
 
     <ConstraintSet android:id="@+id/start">
         <Constraint android:id="@+id/card"
-            android:layout_height="458dp"
+            android:layout_height="525dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_width="293dp" />
+            android:layout_width="332dp"
+            android:layout_marginTop="96dp"
+            app:layout_constraintHorizontal_bias="0.44"
+            app:layout_editor_absoluteX="39dp"
+            app:layout_editor_absoluteY="161dp" />
     </ConstraintSet>
 
     <ConstraintSet android:id="@+id/end">
         <Constraint android:id="@id/card" />
     </ConstraintSet>
 
-    <Transition
-        app:constraintSetEnd="@id/end"
-        app:constraintSetStart="@+id/start" />
 </MotionScene>

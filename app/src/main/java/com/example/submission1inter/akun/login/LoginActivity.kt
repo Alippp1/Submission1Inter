@@ -73,16 +73,16 @@ class LoginActivity : AppCompatActivity() {
 
         }
 
-//        playAnimation()
+        playAnimation()
     }
 
-//    private  fun playAnimation(){
-//
-//        val card = ObjectAnimator.ofFloat(binding.card, View.ALPHA, 1f).setDuration(1500)
-//
-//        AnimatorSet().apply {
-//            playTogether(card)
-//            start()
-//        }
-//    }
+    private  fun playAnimation(){
+
+        val card = ObjectAnimator.ofFloat(binding.card, View.ALPHA, 1f).setDuration(1500)
+
+        AnimatorSet().apply {
+            playTogether(card)
+            start()
+        }
+    }
 }
